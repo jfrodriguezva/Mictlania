@@ -24,6 +24,8 @@ const CACHEABLE_FILES = ["index.wasm","index.pck"];
 const FULL_CACHE = CACHED_FILES.concat(CACHEABLE_FILES);
 
 self.addEventListener('install', (event) => {
+	// swUpdate: la versión nueva no espera a que se cierren las pestañas
+	self.skipWaiting();
 	event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHED_FILES)));
 });
 
@@ -36,7 +38,7 @@ self.addEventListener('activate', (event) => {
 	).then(function () {
 		// Enable navigation preload if available.
 		return ('navigationPreload' in self.registration) ? self.registration.navigationPreload.enable() : Promise.resolve();
-	}));
+	}).then(() => self.clients.claim()));
 });
 
 /**
@@ -108,6 +110,12 @@ self.addEventListener(
 				// Try to use cache first
 				const cache = await cacheFor(local);
 				if (isNavigate) {
+					// La página se pide primero a la red; sin red se usa la guardada.
+					try {
+						return await fetchAndCache(event, cache, isCacheable);
+					} catch (e) {
+						console.warn('Sin red, se usa la página guardada'); // eslint-disable-line no-console
+					}
 					// Check if we have full cache during HTML page request.
 					/** @type {Response[]} */
 					const fullCache = await Promise.all(FULL_CACHE.map((name) => cacheFor(name).then((c) => c.match(name))));

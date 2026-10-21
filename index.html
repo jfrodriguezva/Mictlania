@@ -99,6 +99,7 @@ body {
 <link rel="manifest" href="index.manifest.json">
 
 	<style>#carga-nota{position:absolute;bottom:12%;left:0;right:0;text-align:center;font-family:sans-serif;color:#9aa3c7;font-size:15px;padding:0 24px;}</style><script>window.addEventListener("DOMContentLoaded",function(){var s=document.getElementById("status");if(!s)return;var d=document.createElement("div");d.id="carga-nota";d.textContent="Cargando Mictlania... La primera vez (y después de cada actualización) tarda un poco; luego abre al instante.";s.appendChild(d);});</script>
+<script>if("serviceWorker" in navigator){var swHad=!!navigator.serviceWorker.controller,swT0=Date.now(),swDone=false;navigator.serviceWorker.addEventListener("controllerchange",function(){if(swHad&&!swDone&&Date.now()-swT0<60000){swDone=true;location.reload();}});}</script>
 </head>
 	<body>
 		<canvas id="canvas">
