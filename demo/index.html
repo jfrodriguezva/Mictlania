@@ -99,7 +99,7 @@ body {
 <link rel="manifest" href="index.manifest.json">
 
 	<script>if("serviceWorker" in navigator){var swHad=!!navigator.serviceWorker.controller,swT0=Date.now(),swDone=false;navigator.serviceWorker.addEventListener("controllerchange",function(){if(swHad&&!swDone&&Date.now()-swT0<60000){swDone=true;location.reload();}});}</script>
-<style>#carga-nota{position:absolute;bottom:12%;left:0;right:0;text-align:center;font-family:Georgia,serif;font-style:italic;color:#c8bfa8;font-size:15px;padding:0 24px;}body,#status{background-color:#0b0910!important;}#status-progress{accent-color:#e6b64a;width:min(420px,70%)!important;height:8px;}#status-splash{object-fit:contain!important;}</style><script>window.addEventListener("DOMContentLoaded",function(){var s=document.getElementById("status");if(!s)return;var d=document.createElement("div");d.id="carga-nota";d.textContent="Cargando lo esencial de Mictlania… El resto del Mictlán baja por bloques mientras juegas. La primera vez tarda un poco; luego abre al instante.";s.appendChild(d);});</script>
+<style>#carga-nota{position:absolute;bottom:12%;left:0;right:0;text-align:center;font-family:Georgia,serif;font-style:italic;color:#c8bfa8;font-size:15px;padding:0 24px;}body,#status{background-color:#0b0910!important;}#status-progress{accent-color:#e6b64a;width:min(420px,70%)!important;height:8px;}#status-splash{object-fit:contain!important;}</style><script>window.addEventListener("DOMContentLoaded",function(){var s=document.getElementById("status");if(!s)return;var d=document.createElement("div");d.id="carga-nota";d.textContent="Cargando lo esencial de Mictlania… El resto baja por partes, solo cuando hace falta. La primera vez tarda un poco; luego abre al instante.";s.appendChild(d);});</script>
 <script>if(navigator.storage&&navigator.storage.persist){navigator.storage.persisted().then(function(p){if(!p){navigator.storage.persist();}});}</script>
 </head>
 	<body>
@@ -119,7 +119,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":9753344,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":9777340,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
