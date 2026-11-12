@@ -4,13 +4,10 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1794464111|336398227';
+const CACHE_VERSION = '1794500624|281744496';
 /** @type {string} */
 const CACHE_PREFIX = 'Mictlania-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
-// Motor en caché propio (nombre = su contenido): sobrevive a las actualizaciones del juego.
-const ENGINE_CACHE = CACHE_PREFIX + 'engine-fc74679e3b97f768';
-function cacheFor(name) { return caches.open(name === 'index.wasm' ? ENGINE_CACHE : CACHE_NAME); }
 /** @type {string} */
 const OFFLINE_URL = 'index.offline.html';
 /** @type {boolean} */
@@ -24,8 +21,6 @@ const CACHEABLE_FILES = ["index.wasm","index.pck"];
 const FULL_CACHE = CACHED_FILES.concat(CACHEABLE_FILES);
 
 self.addEventListener('install', (event) => {
-	// swUpdate: la versión nueva no espera a que se cierren las pestañas
-	self.skipWaiting();
 	event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHED_FILES)));
 });
 
@@ -33,12 +28,12 @@ self.addEventListener('activate', (event) => {
 	event.waitUntil(caches.keys().then(
 		function (keys) {
 			// Remove old caches.
-			return Promise.all(keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME && key !== ENGINE_CACHE).map((key) => caches.delete(key)));
+			return Promise.all(keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME).map((key) => caches.delete(key)));
 		}
 	).then(function () {
 		// Enable navigation preload if available.
 		return ('navigationPreload' in self.registration) ? self.registration.navigationPreload.enable() : Promise.resolve();
-	}).then(() => self.clients.claim()));
+	}));
 });
 
 /**
@@ -108,17 +103,11 @@ self.addEventListener(
 		if (isNavigate || isCacheable) {
 			event.respondWith((async () => {
 				// Try to use cache first
-				const cache = await cacheFor(local);
+				const cache = await caches.open(CACHE_NAME);
 				if (isNavigate) {
-					// La página se pide primero a la red; sin red se usa la guardada.
-					try {
-						return await fetchAndCache(event, cache, isCacheable);
-					} catch (e) {
-						console.warn('Sin red, se usa la página guardada'); // eslint-disable-line no-console
-					}
 					// Check if we have full cache during HTML page request.
 					/** @type {Response[]} */
-					const fullCache = await Promise.all(FULL_CACHE.map((name) => cacheFor(name).then((c) => c.match(name))));
+					const fullCache = await Promise.all(FULL_CACHE.map((name) => cache.match(name)));
 					const missing = fullCache.some((v) => v === undefined);
 					if (missing) {
 						try {
