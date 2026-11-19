@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1795057867|647660104';
+const CACHE_VERSION = '1795090130|131122374';
 /** @type {string} */
 const CACHE_PREFIX = 'MictlaniaDemo-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
